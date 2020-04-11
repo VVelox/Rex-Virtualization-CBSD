@@ -35,3 +35,19 @@ inc/
 /pm_to_blib
 /*.zip
 
+Rex-Virtualization-CBSD/blib/
+Rex-Virtualization-CBSD/_eumm/
+Rex-Virtualization-CBSD/*.gz
+Rex-Virtualization-CBSD/Makefile
+Rex-Virtualization-CBSD/Makefile.old
+Rex-Virtualization-CBSD/MANIFEST.bak
+Rex-Virtualization-CBSD/pm_to_blib
+Rex-Virtualization-CBSD/*.zip
+Rex-Virtualization-CBSD/!Build/
+Rex-Virtualization-CBSD/.last_cover_stats
+Rex-Virtualization-CBSD/META.yml
+Rex-Virtualization-CBSD/META.json
+Rex-Virtualization-CBSD/MYMETA.*
+Rex-Virtualization-CBSD/*.o
+Rex-Virtualization-CBSD/*.pm.tdy
+Rex-Virtualization-CBSD/*.bs
