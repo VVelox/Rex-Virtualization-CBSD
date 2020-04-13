@@ -4,6 +4,9 @@ use 5.006;
 use strict;
 use warnings;
 
+use Rex::Virtualization::Base;
+use base qw(Rex::Virtualization::Base);
+
 =head1 NAME
 
 Rex::Virtualization::CBSD - The great new Rex::Virtualization::CBSD!
@@ -19,34 +22,16 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Rex::Virtualization::CBSD;
-
-    my $foo = Rex::Virtualization::CBSD->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
-
 =cut
 
-sub function1 {
-}
+sub new {
+	my $that  = shift;
+	my $proto = ref($that) || $that;
+	my $self  = {@_};
 
-=head2 function2
+	bless( $self, $proto );
 
-=cut
-
-sub function2 {
+	return $self;
 }
 
 =head1 AUTHOR
