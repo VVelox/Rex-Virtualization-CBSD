@@ -34,8 +34,14 @@ sub execute {
 		die("Error running 'cbsd bget jname=".$name."'");
 	}
 
+	my %info;
+	my @lines=split(/\n/, $returned);
+	foreach my $line (@lines) {
+		my ( $vname, $vval )=split(/\:\ /, $line);
+		$info{$vname}=$vval;
+	}
 
-	return 1;
+	return \%info;
 }
 
 1;
