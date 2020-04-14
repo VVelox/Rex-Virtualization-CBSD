@@ -16,7 +16,7 @@ use Term::ANSIColor qw(colorstrip);
 sub execute {
 	my ( $class, $name ) = @_;
 
-	if (!defined( $jname ) ){
+	if (!defined( $name ) ){
 		die('No VM name defined');
 	}
 
@@ -31,7 +31,7 @@ sub execute {
 	}
 
 	# the output is colorized
-	$returned=colorstrip($found);
+	$returned=colorstrip($returned);
 
 	if ( $returned =~ /^No\ such/ ){
 		die('"'.$name.'" does not exist');
