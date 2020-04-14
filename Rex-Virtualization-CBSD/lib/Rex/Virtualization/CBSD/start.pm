@@ -30,7 +30,7 @@ sub execute {
 		die('"'.$name.'" does not exist');
 	}
 	# check for failures caused by it already running
-	if ( $returned =~ /^already\ running/ ){
+	if ( $returned =~ /already\ running/ ){
 		die('"'.$name.'" is already running');
 	}
 	# test after no such as that will also exit non-zero
