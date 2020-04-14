@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::remove;
+package Rex::Virtualization::CBSD::info;
 
 use strict;
 use warnings;
@@ -20,23 +20,20 @@ sub execute {
 		die('No VM name defined');
 	}
 
-	Rex::Logger::debug("CBSD VM remove via cbsd bremove ".$name);
+	Rex::Logger::debug("CBSD VM info via cbsd bget jname=".$name);
 
-	my %VMs;
-
-	# note
-	my $returned=i_run ('cbsd bremove '.$name , fail_ok => 1);
-	if ( $? != 0 ) {
-		die("Error running 'cbsd remove ".$name."'");
-	}
-
-	# the output is colorized
+	#
+	my $returned=i_run ('cbsd bget jname='.$name , fail_ok => 1);
+	# the output is colorized, if there is an error
 	$returned=colorstrip($returned);
-
-	# as of CBSD 12.1.7, it won't exit non-zero for this, so check here
 	if ( $returned =~ /^No\ such/ ){
 		die('"'.$name.'" does not exist');
 	}
+	# check for this second as no VM will also exit non-zero
+	if ( $? != 0 ) {
+		die("Error running 'cbsd bget jname=".$name."'");
+	}
+
 
 	return 1;
 }
