@@ -40,7 +40,7 @@ sub execute {
 		push( @disks, \%disk );
 	}
 
-	return \%VMs;
+	return \@disks;
 }
 
 1;
