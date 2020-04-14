@@ -7,14 +7,14 @@ package Rex::Virtualization::CBSD::list;
 use strict;
 use warnings;
 
-our $VERSION = '1.9.0'; # VERSION
+our $VERSION = '0.0.1'; # VERSION
 
 use Rex::Logger;
 use Rex::Helper::Run;
 use Term::ANSIColor qw(colorstrip);
 
 sub execute {
-	my ( $class, $arg1 ) = @_;
+	my ( $class ) = @_;
 
 	Rex::Logger::debug("Getting CBSD VM list via cbsd bls display=nodename,jname,jid,vm_ram,vm_curmem,vm_cpus,pcpu,vm_os_type,ip4_addr,status,vnc,path header=0");
 
