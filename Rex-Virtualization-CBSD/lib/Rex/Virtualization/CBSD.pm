@@ -88,6 +88,20 @@ This dies upon failure.
     
     print Dumper(\@disks);
 
+=head2 freejname
+
+Gets the next available VM name.
+
+One argument is required and that is the base VM to use.
+
+The optional argument 'lease_time' may be used to specify the number
+of seconds a lease for the VM name should last. The default is 30.
+
+    vm 'freejname' => 'foo';
+    
+    # the same thing, but with a 60 second lease time
+    vm 'freejname' => 'foo', lease_time => '60';
+
 =head2 info
 
 This fetches the available configuration information for a VM via

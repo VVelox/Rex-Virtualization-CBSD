@@ -25,7 +25,7 @@ sub execute {
 			die 'hard_timeout value,"' . $opts{hard_timeout} . '", is not numeric';
 		}
 
-		my $hard_timeout = 'hard_timeout=' . $opts{hard_timeout};
+		$hard_timeout = 'hard_timeout=' . $opts{hard_timeout};
 	}
 
 	# set the noacpi value if needed
