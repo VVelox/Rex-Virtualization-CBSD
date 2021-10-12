@@ -19,7 +19,6 @@ Version 0.0.1
 
 our $VERSION = '0.0.1';
 
-
 =head1 SYNOPSIS
 
     use Rex::Commands::Virtualization;
@@ -338,6 +337,48 @@ This dies upon failure.
         warn('Failed to stop the VM foo... '.$error);
     }
 
+=head2 vm_os_profiles
+
+Get the VM OS profiles for a specified OS type.
+
+One argument is required and that is the OS type.
+
+The returned value is a array.
+
+This will die upon failure.
+
+    # list the VM OS profiles for FreeBSD
+    my @profiles=vm 'vm_os_profiles' => 'freebsd';
+    print Dumper @profiles;
+
+=head2 vm_os_profiles_hash
+
+Get the VM OS profiles for a specified OS type.
+
+The returned value is a two level hash. The keys for the first
+level are the OS types and the keys for the second level are
+the OS profile names.
+
+This will die upon failure.
+
+    my %os_profiles=vm 'vm_os_profiles_hash';
+    print Dumper %os_profiles;
+
+    # print the OS profiles for FreeBSD
+    print Dumper keys( %{ $os_profiles{freebsd} } );
+
+=head2 vm_os_types
+
+Get the VM OS types there are profiles for.
+
+The returned value is a array.
+
+This will die upon failure.
+
+    # list the VM OS profiles for FreeBSD
+    my @os_types=vm 'vm_os_profiles';
+    print Dumper @os_types;
+
 =head1 AUTHOR
 
 Zane C. Bowers-HAdley, C<< <vvelox at vvelox.net> >>
@@ -395,4 +436,4 @@ This is free software, licensed under:
 
 =cut
 
-1; # End of Rex::Virtualization::CBSD
+1;    # End of Rex::Virtualization::CBSD
