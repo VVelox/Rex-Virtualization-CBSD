@@ -16,7 +16,7 @@ use Rex::Commands::User;
 use Rex::Commands::Fs;
 
 sub execute {
-	my ($class, $wanted_os) = @_;
+	my ( $class, $wanted_os ) = @_;
 
 	Rex::Logger::debug("Getting a list of VM OS types for CBSD ");
 
@@ -36,11 +36,12 @@ sub execute {
 	my %profiles;
 	foreach my $config (@vm_configs) {
 		my ( $vm, $os, $profile ) = split( /\-/, $config, 3 );
-		$profile=~s/\.conf$//;
-		if (!defined( $profiles{$os} )) {
-			$profiles{$os}={ $profile => 1 };
-		}else {
-			$profiles{$os}{$profile}=1
+		$profile =~ s/\.conf$//;
+		if ( !defined( $profiles{$os} ) ) {
+			$profiles{$os} = { $profile => 1 };
+		}
+		else {
+			$profiles{$os}{$profile} = 1;
 		}
 	}
 

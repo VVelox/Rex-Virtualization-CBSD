@@ -16,10 +16,10 @@ use Rex::Commands::User;
 use Rex::Commands::Fs;
 
 sub execute {
-	my ($class, $wanted_os) = @_;
+	my ( $class, $wanted_os ) = @_;
 
 	# the OS we want profiles for
-	if (!defined($wanted_os)) {
+	if ( !defined($wanted_os) ) {
 		die 'No OS to list profiles for defined';
 	}
 
@@ -41,8 +41,8 @@ sub execute {
 	my %profiles;
 	foreach my $config (@vm_configs) {
 		my ( $vm, $os, $profile ) = split( /\-/, $config, 3 );
-		if ($os eq $wanted_os) {
-			$profile=~s/\.conf$//;
+		if ( $os eq $wanted_os ) {
+			$profile =~ s/\.conf$//;
 			$profiles{$profile} = 1;
 		}
 	}
