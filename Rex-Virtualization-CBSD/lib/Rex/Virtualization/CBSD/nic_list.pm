@@ -16,7 +16,7 @@ use Term::ANSIColor qw(colorstrip);
 sub execute {
 	my ( $class ) = @_;
 
-	Rex::Logger::debug("Getting CBSD VM list of ");
+	Rex::Logger::debug("Getting CBSD NIC list");
 
 	my @nics;
 

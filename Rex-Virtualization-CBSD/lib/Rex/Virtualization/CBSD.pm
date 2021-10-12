@@ -218,6 +218,38 @@ This dies upon failure.
         warn('Failed to pause the VM foo... '.$error);
     }
 
+=head2 pci_list
+
+List configured PCI devices for a VM.
+
+This returned data is a array of hashes.
+
+The keys are as below.
+
+    name - Drive name of the PCI item.
+    
+    bus - Bus number.
+    
+    slot - Slot number.
+    
+    function - Function number.
+    
+    desc - Description of the device.
+
+One argument is required and that is the name of the VM.
+
+This dies upon failure.
+
+    my @devices
+    eval{
+        @devices=vm nic_list => 'foo';
+    } or do {
+        my $error = $@ || 'Unknown failure';
+        warn('Failed to the PCI device list... '.$error);
+    }
+    
+    print Dumper(\@devices);
+
 =head2 remove
 
 This removes the selected VM and remove the data. This is done via the command...
