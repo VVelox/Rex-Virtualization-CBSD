@@ -25,7 +25,7 @@ sub execute {
 	my %VMs;
 
 	# note
-	my $returned=i_run ('cbsd bremove '.$name , fail_ok => 1);
+	my $returned=i_run ('cbsd bdestroy '.$name , fail_ok => 1);
 	if ( $? != 0 ) {
 		die("Error running 'cbsd remove ".$name."'");
 	}

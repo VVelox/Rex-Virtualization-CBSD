@@ -14,15 +14,41 @@ use Rex::Helper::Run;
 use Term::ANSIColor qw(colorstrip);
 
 sub execute {
-	my ( $class, $name ) = @_;
+	my ( $class, $name, %opts ) = @_;
 
+	# set the hard_timeout if needed
+	my $hard_timeout='';
+	if ( defined( $opts{hard_timeout} ) ) {
+		# make sure we have a valid value
+		if ( $opts{hard_timeout} !~ /^[0123456789]+$/ ) {
+			die 'hard_timeout value,"'.$opts{hard_timeout}.'", is not numeric';
+		}
+
+		my $hard_timeout='hard_timeout='.$opts{hard_timeout};
+	}
+
+	# set the noacpi value if needed
+	my $noacpi='';
+	if ( defined( $opts{noacpi} ) ) {
+		# make sure we have a valid value
+		if (
+			( $opts{noacpi} ne '0' ) &&
+			( $opts{noacpi} ne '1' )
+			) {
+			die 'noacpi is set and it is not equal to "0" or "1"';
+		}
+
+		$noacpi='noacpi='.$opts{noacpi};
+	}
+
+	# make sure we have a 
 	if (!defined( $name ) ){
 		die('No VM name defined');
 	}
 
 	Rex::Logger::debug("CBSD VM stop via cbsd bstop ".$name);
 
-	my $returned=i_run ('cbsd bstop '.$name , fail_ok => 1);
+	my $returned=i_run ('cbsd bstop jname='.$name.' '.$hard_timeout.' '.$noacpi , fail_ok => 1);
 	# the output is colorized
 	$returned=colorstrip($returned);
 	# check for failures caused by it not existing

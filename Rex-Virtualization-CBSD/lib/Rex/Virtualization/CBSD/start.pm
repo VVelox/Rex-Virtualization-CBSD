@@ -22,7 +22,7 @@ sub execute {
 
 	Rex::Logger::debug("CBSD VM start via cbsd bstart ".$name);
 
-	my $returned=i_run ('cbsd bstart '.$name , fail_ok => 1);
+	my $returned=i_run ('cbsd bstart jname='.$name , fail_ok => 1);
 	# the output is colorized
 	$returned=colorstrip($returned);
 	# check for failures caused by it not existing
