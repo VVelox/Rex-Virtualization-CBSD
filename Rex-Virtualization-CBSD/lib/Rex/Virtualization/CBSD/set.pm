@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::stop;
+package Rex::Virtualization::CBSD::set;
 
 use strict;
 use warnings;
@@ -21,12 +21,27 @@ sub execute {
 		die('No VM name defined');
 	}
 
-	my $command='cbsd bset jname='.$name;
+	# puts together the string of what to set etc
+	my $to_set = '';
+	foreach my $key ( keys(%opts) ) {
 
-	Rex::Logger::debug( "CBSD VM stop via ".$command );
+		# make sure it does not contain any spaces
+		if ( $key =~ /[\t\ \=\\\/\'\"\n]/ ) {
+			die 'The variable "' . $key . '" matched /[\t\ \=\/\\\'\"\n]/, meaning it is not a valid variable name';
+		}
 
-	
-	
+		# make sure we don't have any quotes
+		if ( $opts{$key} =~ /[\'\"]/ ) {
+			die "The value '" . $opts{$key} . "' for key '" . $key . "' contains a single or double quote";
+		}
+
+		$to_set = $to_set . ' ' . $key . "='" . $opts{$key} . "'";
+	}
+
+	my $command = 'cbsd bset jname=' . $name . $to_set;
+
+	Rex::Logger::debug( "CBSD VM stop via " . $command );
+
 	my $returned = i_run( $command, fail_ok => 1 );
 
 	# the output is colorized
@@ -39,7 +54,7 @@ sub execute {
 
 	# test after no such as that will also exit non-zero
 	if ( $? != 0 ) {
-		die( "Error running 'cbsd bstop " . $name . "'" );
+		die( "Error running '" . $command . "' returned... " . $returned );
 	}
 
 	# this is warning message will be thrown if stop fails.... does not return 0 though
