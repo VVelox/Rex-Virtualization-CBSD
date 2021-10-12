@@ -42,6 +42,16 @@ sub new {
 
 =head1 Methods
 
+=head2 cbsd_base_dir
+
+This returns the CBSD base dir that the install is stored in.
+
+No arguments are taken.
+
+This will die upon error.
+
+    my $cbsd_base_dir=vm 'cbsd_base_dir'
+
 =head2 disk_list
 
 This returns a list of disks setup for use with Bhyve in CBSD via parsing
@@ -71,7 +81,7 @@ This dies upon failure.
 
     my @disks
     eval{
-        @disks=vm disk_list;
+        @disks=vm 'disk_list';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to the disk list... '.$error);
@@ -90,7 +100,7 @@ The returned value is a flat hash of key value pairs.
 
     my %vm_info
     eval{
-        %vm_info=vm info => 'foo';
+        %vm_info=vm 'info' => 'foo';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to get settings for the VM... '.$error);
@@ -134,7 +144,7 @@ This dies upon failure.
 
     my %vm_list;
     eval{
-        %vm_list=vm list;
+        %vm_list=vm 'list';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to list the VM... '.$error);
@@ -212,7 +222,7 @@ The command called is as below.
 This dies upon failure.
 
     eval{
-        vm pause => 'foo';
+        vm 'pause' => 'foo';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to pause the VM foo... '.$error);
@@ -242,7 +252,7 @@ This dies upon failure.
 
     my @devices
     eval{
-        @devices=vm nic_list => 'foo';
+        @devices=vm 'nic_list' => 'foo';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to the PCI device list... '.$error);
@@ -261,7 +271,7 @@ One argument is taken and that is the name of the VM.
 This dies upon failure.
 
     eval{
-        vm remove => 'foo'
+        vm 'remove' => 'foo'
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to remove the VM foo... '.$error);
@@ -278,7 +288,7 @@ One argument is taken and that is the name of the VM.
 This dies upon failure.
 
     eval{
-        vm restart => 'foo'
+        vm 'restart' => 'foo'
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to restart the VM foo... '.$error);
@@ -296,7 +306,7 @@ start all VM whose names begin with 'vm', e.g. 'vm1', 'vm2'...
 This dies upon failure.
 
     eval{
-        vm start => 'foo'
+        vm 'start' => 'foo'
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to start the VM foo... '.$error);
@@ -321,7 +331,7 @@ The following options are optional.
 This dies upon failure.
 
     eval{
-        vm stop => 'foo',
+        vm 'stop' => 'foo',
             hard_timeout => 60;
     } or do {
         my $error = $@ || 'Unknown failure';
