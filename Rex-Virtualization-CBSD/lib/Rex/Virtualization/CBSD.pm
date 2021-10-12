@@ -108,7 +108,7 @@ The returned array is a hash of hashes. The first level hash is the jname.
 
     nodename - The node name that this is set to run on.
     
-    jname - Name of the VM.
+    vm - Name of the VM.
     
     jid - Jail ID/process ID of the VM if running. IF '0' it is not running.
     
@@ -157,6 +157,44 @@ This dies upon failure.
             'path: '.$vm_list{$vm_name}{path}."\n".
             "\n"
     }
+
+=head2 nic_list
+
+List configured NICs.
+
+This returned data is a array of hashes.
+
+The keys are as below.
+
+    vm - The name of the VM in question.
+    
+    driver - The driver in use. As of currently either vtnet or e1000.
+    
+    type - Needs documented.
+    
+    parent - Either the name of the parent NIC, example 'bridge1', or set to 'auto'.
+    
+    hwaddr - The MAC address for the NIC.
+    
+    address - Address of the NIC. '0' if not configured.
+    
+    mtu - The MTU of NIC. '0' if default.
+    
+    persistent - 0/1 - If it should exist when the VM is not in use. '0' is the default.
+    
+    ratelimit - Rate limit for the interface. '0' is the default, not in use.
+
+This dies upon failure.
+
+    my @nics
+    eval{
+        @nics=vm nic_list;
+    } or do {
+        my $error = $@ || 'Unknown failure';
+        warn('Failed to the NIC list... '.$error);
+    }
+    
+    print Dumper(\@nics);
 
 =head2 pause
 

@@ -36,7 +36,7 @@ sub execute {
 	foreach my $line (@found_lines) {
 		my %VM;
 		# needs to be updated if display= is ever changed
-		( $VM{'node'}, $VM{'name'}, $VM{'pid'}, $VM{'ram'}, $VM{'curmem'},
+		( $VM{'node'}, $VM{'vm'}, $VM{'pid'}, $VM{'ram'}, $VM{'curmem'},
 			$VM{'cpus'}, $VM{'pcpu'}, $VM{'os'}, $VM{'ip4'}, $VM{'status'},
 			$VM{'vnc'}, $VM{'path'} ) = split(/[\ \t]+/, $line);
 		$VMs{$VM{'name'}}=\%VM;
