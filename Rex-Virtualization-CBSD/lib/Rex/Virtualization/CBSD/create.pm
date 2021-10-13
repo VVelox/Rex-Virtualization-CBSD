@@ -34,13 +34,6 @@ sub execute {
 		}
 	}
 
-	# get where CBSD is installed to
-	my %cbsd;
-	eval { %cbsd = get_user('cbsd'); } or do {
-		my $error = $@ || 'Unknown failure';
-		die( "get_user('cbsd') died with... " . $error );
-	};
-
 	my $command
 		= 'env NOINTER=1 cbsd bcreate jname="'
 		. $opts{name}
@@ -52,42 +45,30 @@ sub execute {
 
 	# the variables to check for.
 	my @variables = (
-		'bhyve_vnc_tcp_bind',
-		'imgsize',
-		'interface2',
-		'nic_flags',
-		'nic_flags2',
-		'quiet',
-		'removejconf',
-		'runasap',
-		'vm_cpus',
-		'vm_ram',
-		'zfs_snapsrc',
-		'ci_gw4',
-		'ci_interface2',
-		'ci_interface_mtu',
-		'ci_interface_mtu2',
-		'ci_ip4_addr',
-		'ci_ip4_addr2',
-		'ci_user_pubkey',
-		'ci_user_pw_user',
-		'ci_user_pw_root'
+		'bhyve_vnc_tcp_bind', 'imgsize',          'interface2',        'nic_flags',
+		'nic_flags2',         'quiet',            'removejconf',       'runasap',
+		'vm_cpus',            'vm_ram',           'zfs_snapsrc',       'ci_gw4',
+		'ci_interface2',      'ci_interface_mtu', 'ci_interface_mtu2', 'ci_ip4_addr',
+		'ci_ip4_addr2',       'ci_user_pubkey',   'ci_user_pw_user',   'ci_user_pw_root'
 	);
 
 	# add each found variable to the command
 	foreach my $key (@variables) {
 
-		# make sure it does not contain any tabs, spaces, =, \. /, ', ", or new lines.
-		if ( $opts{$key} =~ /[\t\ \=\\\/\'\"\n]/ ) {
-			die 'The value "'
-				. $opts{$key}
-				. '" for key "'
-				. $key
-				. '" matched /[\t\ \=\/\\\'\"\n]/, meaning it is not a valid value';
-		}
-
 		if ( defined( $opts{$key} ) ) {
-			$command = ' ' . $key . '="' . $opts{$key} . '"';
+
+			# make sure it does not contain any tabs, spaces, =, \. /, ', ", or new lines.
+			if ( $opts{$key} =~ /[\t\ \=\\\/\'\"\n]/ ) {
+				die 'The value "'
+					. $opts{$key}
+					. '" for key "'
+					. $key
+					. '" matched /[\t\ \=\/\\\'\"\n]/, meaning it is not a valid value';
+			}
+
+			if ( defined( $opts{$key} ) ) {
+				$command = $command.' ' . $key . '="' . $opts{$key} . '"';
+			}
 		}
 	}
 
