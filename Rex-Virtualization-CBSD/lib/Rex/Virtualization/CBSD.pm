@@ -51,6 +51,85 @@ This will die upon error.
 
     my $cbsd_base_dir=vm 'cbsd_base_dir'
 
+=head2 create
+
+Creates a new VM.
+
+Below is a list of the basic options.
+
+    name - Name of the VM.
+    
+    bhyve_vnc_tcp_bind - VNC bind, e.g: '127.0.0.1', '0.0.0.0', '::1'.
+    
+    imgsize - VM first/boot disk size, e.g.: '10g', '21474836480000'.
+    
+    inter - 0 to prevent any questions and to accept answers by default.
+    
+    interface2 - <parent>, create VM with two interfaces, <parent> is uplink for nic2,
+                 do not confuse with the ci_interface2 parameter.
+    
+    nic_flags - '0' to disable. Pass additional flags for NIC, e.g.: 'private'.
+    
+    nic_flags2 - '0' to disable. Pass additional flags for NIC2, e.g.: 'private'.
+    
+    quiet - 0,1: be quiet, dont output verbose message.
+    
+    removejconf - 0,1: remove jconf after bcreate? 0 - don't remove.
+    
+    runasap - 0,1: when 1 - run a VM immediately (atomic bcreate+bstart).
+    
+    vm_cpus - VM CPUs cores, e.g.: '2'.
+    
+    vm_os_profile - <name>: full config file is: vm-${vm_os_type}-${vm_os_profile}.conf, file
+                       must be present in ~cbsd/etc/defaults/ or ~cbsd/etc/ directory.
+    
+    vm_os_type - <name>: full config file is: vm-${vm_os_type}-${vm_os_profile}.conf, file
+                 must be present in ~cbsd/etc/defaults/ or ~cbsd/etc/ directory.
+    
+    vm_ram - VM RAM, e.g.: '1g', '2147483648'.
+    
+    zfs_snapsrc - <name>: use ZFS snapshot as data source.
+
+Below is a list of options for when using cloud init.
+
+    ci_gw4 - <ipv4> (cloud-init profile only): set IPv4 gateway for VM.
+
+    ci_interface2 - configure second interface via cloud-init,
+                    do not confuse with the interface2 parameter.
+
+    ci_interface_mtu - set MTU for NIC1, default: 1500.
+
+    ci_interface_mtu2 - set MTU for NIC2, default: 1500.
+
+    ci_ip4_addr  - <ipv4> (cloud-init profile only): set IPv4 address for VM,
+                   default is: DHCP. Can be: 'DHCPv6' or static IPv4/IPv6.
+
+    ci_ip4_addr2 - <ipv4> (cloud-init profile only): set IPv4 address for VM
+                    NIC2 (see also: ci_interface2,ci_gw42). Possible values same as ci_ip4_addr.
+
+    ci_user_pubkey - full/relative path to authorized_keys or may contain pubkey
+                     string itself, e.g: ci_user_pubkey="ssh-ed25519 XXXXX root@my.domain".
+                     (cloud-init profile only): set authorized_keys file for cloud-init user for VM.
+
+    ci_user_pw_user - set password for cloud-init user.
+
+    ci_user_pw_root - set password for 'root' user.
+
+A minimum of 'vm_os_type', 'vm_os_profile', 'vm_ram', 'vm_cpus', and 'imgsize' is needed.
+
+This will die upon a error.
+
+    #
+    #
+    #
+    #
+    print Dumper vm 'create', name=>'foo',
+                              'vm_os_type'=>'freebsd',
+                              'vm_os_profile'=>'freebsd',
+                              'vm_ram'=>'1g',
+                              'vm_cpus'=>'1',
+                              'imgsize'=>'10g';
+
 =head2 disk_list
 
 This returns a list of disks setup for use with Bhyve in CBSD via parsing
