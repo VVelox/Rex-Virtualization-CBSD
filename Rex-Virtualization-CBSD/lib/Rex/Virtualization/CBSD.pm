@@ -63,8 +63,6 @@ Below is a list of the basic options.
     
     imgsize - VM first/boot disk size, e.g.: '10g', '21474836480000'.
     
-    inter - 0 to prevent any questions and to accept answers by default.
-    
     interface2 - <parent>, create VM with two interfaces, <parent> is uplink for nic2,
                  do not confuse with the ci_interface2 parameter.
     
@@ -117,15 +115,14 @@ Below is a list of options for when using cloud init.
 
 A minimum of 'vm_os_type', 'vm_os_profile', 'vm_ram', 'vm_cpus', and 'imgsize' is needed.
 
+This ran non-interactively.
+
 This will die upon a error.
 
-    #
-    #
-    #
-    #
+    # create a x64 FreeBSD 13.0 VM named foo with 1G of ram, 1 CPU, and a 10G disk
     print Dumper vm 'create', name=>'foo',
                               'vm_os_type'=>'freebsd',
-                              'vm_os_profile'=>'freebsd',
+                              'vm_os_profile'=>'FreeBSD-x64-13.0',
                               'vm_ram'=>'1g',
                               'vm_cpus'=>'1',
                               'imgsize'=>'10g';

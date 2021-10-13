@@ -42,18 +42,18 @@ sub execute {
 	};
 
 	my $command
-		= 'cbsd bcreate jname="'
+		= 'env NOINTER=1 cbsd bcreate jname="'
 		. $opts{name}
 		. '" vm_os_type="'
 		. $opts{vm_os_type}
 		. '" vm_os_profile="'
-		. $opts{vm_os_profile} . '"';
+		. $opts{vm_os_profile}
+		. '" inter=0';
 
 	# the variables to check for.
 	my @variables = (
 		'bhyve_vnc_tcp_bind',
 		'imgsize',
-		'inter',
 		'interface2',
 		'nic_flags',
 		'nic_flags2',
