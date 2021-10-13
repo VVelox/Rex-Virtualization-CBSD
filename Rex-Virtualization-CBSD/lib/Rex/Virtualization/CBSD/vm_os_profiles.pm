@@ -16,7 +16,12 @@ use Rex::Commands::User;
 use Rex::Commands::Fs;
 
 sub execute {
-	my ( $class, $wanted_os ) = @_;
+	my ( $class, $wanted_os, %opts ) = @_;
+
+	# set cloudinit to false by default
+	if ( !defined( $opts{cloudinit} ) ) {
+		$opts{cloudinit} = 0;
+	}
 
 	# the OS we want profiles for
 	if ( !defined($wanted_os) ) {
@@ -41,9 +46,25 @@ sub execute {
 	my %profiles;
 	foreach my $config (@vm_configs) {
 		my ( $vm, $os, $profile ) = split( /\-/, $config, 3 );
-		if ( $os eq $wanted_os ) {
-			$profile =~ s/\.conf$//;
-			$profiles{$profile} = 1;
+
+		my $add_profile = 1;
+
+		# if cloudinit is defined, only add cloudinit images
+		if ( $opts{cloudinit} ) {
+
+			# since we are default adding, make sure it is not a cloudinit
+			# profile and don't add it if it is not
+			if ( $profile !~ /^cloud\-/ ) {
+				$add_profile = 0;
+			}
+		}
+
+		# add the profile if needed
+		if ($add_profile) {
+			if ( $os eq $wanted_os ) {
+				$profile =~ s/\.conf$//;
+				$profiles{$profile} = 1;
+			}
 		}
 	}
 

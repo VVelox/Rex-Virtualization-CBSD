@@ -16,9 +16,14 @@ use Rex::Commands::User;
 use Rex::Commands::Fs;
 
 sub execute {
-	my ( $class, $wanted_os ) = @_;
+	my ( $class, %opts ) = @_;
 
 	Rex::Logger::debug("Getting a list of VM OS types for CBSD ");
+
+	# set cloudinit to false by default
+	if ( !defined( $opts{cloudinit} ) ) {
+		$opts{cloudinit} = 0;
+	}
 
 	# get where CBSD is installed to
 	my %cbsd;
@@ -37,11 +42,27 @@ sub execute {
 	foreach my $config (@vm_configs) {
 		my ( $vm, $os, $profile ) = split( /\-/, $config, 3 );
 		$profile =~ s/\.conf$//;
-		if ( !defined( $profiles{$os} ) ) {
-			$profiles{$os} = { $profile => 1 };
+
+		my $add_profile = 1;
+
+		# if cloudinit is defined, only add cloudinit images
+		if ( $opts{cloudinit} ) {
+
+			# since we are default adding, make sure it is not a cloudinit
+			# profile and don't add it if it is not
+			if ( $profile !~ /^cloud\-/ ) {
+				$add_profile = 0;
+			}
 		}
-		else {
-			$profiles{$os}{$profile} = 1;
+
+		# add the profile if needed
+		if ($add_profile) {
+			if ( !defined( $profiles{$os} ) ) {
+				$profiles{$os} = { $profile => 1 };
+			}
+			else {
+				$profiles{$os}{$profile} = 1;
+			}
 		}
 	}
 

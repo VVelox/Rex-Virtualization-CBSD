@@ -375,6 +375,10 @@ Get the VM OS profiles for a specified OS type.
 
 One argument is required and that is the OS type.
 
+An optional argument is taken and that is cloudinit. It is a
+Perl boolean value and if true it will only return profiles
+with cloudinit support.
+
 The returned value is a array.
 
 This will die upon failure.
@@ -382,10 +386,18 @@ This will die upon failure.
     # list the VM OS profiles for FreeBSD
     my @profiles=vm 'vm_os_profiles' => 'freebsd';
     print Dumper @profiles;
+    
+    # list the VM OS profiles for FreeBSD
+    @profiles=vm 'vm_os_profiles' => 'freebsd', cloudinit=>1;
+    print Dumper @profiles;
 
 =head2 vm_os_profiles_hash
 
 Get the VM OS profiles for a specified OS type.
+
+One optional argument is taken and that is cloudinit. It is a
+Perl boolean value and if true it will only return profiles
+with cloudinit support.
 
 The returned value is a two level hash. The keys for the first
 level are the OS types and the keys for the second level are
@@ -395,9 +407,12 @@ This will die upon failure.
 
     my %os_profiles=vm 'vm_os_profiles_hash';
     print Dumper %os_profiles;
-
+    
     # print the OS profiles for FreeBSD
     print Dumper keys( %{ $os_profiles{freebsd} } );
+    
+    my %os_profiles=vm 'vm_os_profiles_hash', cloudinit=>1;
+    print Dumper %os_profiles;
 
 =head2 vm_os_types
 
@@ -407,7 +422,7 @@ The returned value is a array.
 
 This will die upon failure.
 
-    # list the VM OS profiles for FreeBSD
+    # get a hash of all OS types and profiles
     my @os_types=vm 'vm_os_profiles';
     print Dumper @os_types;
 
