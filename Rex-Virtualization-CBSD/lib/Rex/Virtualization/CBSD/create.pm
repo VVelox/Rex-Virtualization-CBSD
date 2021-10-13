@@ -47,25 +47,36 @@ sub execute {
 		. '" vm_os_type="'
 		. $opts{vm_os_type}
 		. '" vm_os_profile="'
-		. $opts{vm_os_profile}.'"';
+		. $opts{vm_os_profile} . '"';
 
 	# the variables to check for.
-	my @variables=(
-				   'bhyve_vnc_tcp_bind',
-				   'imgsize',
-				   'inter',
-				   'interface2',
-				   'nic_flags',
-				   'nic_flags2',
-				   'quiet',
-				   'removejconf',
-				   'runasap',
-				   'vm_cpus',
-				   'vm_ram',
-				   'zfs_snapsrc'
-				   );
+	my @variables = (
+		'bhyve_vnc_tcp_bind',
+		'imgsize',
+		'inter',
+		'interface2',
+		'nic_flags',
+		'nic_flags2',
+		'quiet',
+		'removejconf',
+		'runasap',
+		'vm_cpus',
+		'vm_ram',
+		'zfs_snapsrc',
+		'ci_gw4',
+		'ci_interface2',
+		'ci_interface_mtu',
+		'ci_interface_mtu2',
+		'ci_ip4_addr',
+		'ci_ip4_addr2',
+		'ci_user_pubkey',
+		'ci_user_pw_user',
+		'ci_user_pw_root'
+	);
+
 	# add each found variable to the command
 	foreach my $key (@variables) {
+
 		# make sure it does not contain any tabs, spaces, =, \. /, ', ", or new lines.
 		if ( $opts{$key} =~ /[\t\ \=\\\/\'\"\n]/ ) {
 			die 'The value "'
@@ -75,12 +86,12 @@ sub execute {
 				. '" matched /[\t\ \=\/\\\'\"\n]/, meaning it is not a valid value';
 		}
 
-		if (defined($opts{$key})) {
-			$command=' '.$key.'="'.$opts{$key}.'"';
+		if ( defined( $opts{$key} ) ) {
+			$command = ' ' . $key . '="' . $opts{$key} . '"';
 		}
 	}
 
-	Rex::Logger::debug("Creating a new CBSD VM via... ".$command);
+	Rex::Logger::debug( "Creating a new CBSD VM via... " . $command );
 
 	my $returned = i_run( $command, fail_ok => 1 );
 
