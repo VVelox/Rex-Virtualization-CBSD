@@ -193,7 +193,7 @@ The keys are as below.
     
     driver - The driver in use. As of currently either vtnet or e1000.
     
-    type - Needs documented.
+    type - Not currently used.
     
     parent - Either the name of the parent NIC, example 'bridge1', or set to 'auto'.
     
@@ -203,9 +203,10 @@ The keys are as below.
     
     mtu - The MTU of NIC. '0' if default.
     
-    persistent - 0/1 - If it should exist when the VM is not in use. '0' is the default.
+    persistent - 0/1 - 1 mean persistent nic (no managed by CBSD)
     
-    ratelimit - Rate limit for the interface. '0' is the default, not in use.
+    ratelimit - Rate limit for the interface. '0' is the default.
+                {tx}/{rx} (outgoing/incoming limit), {rxtx} - shared(rx+tx) limit, one value
 
 This dies upon failure.
 
@@ -306,6 +307,23 @@ This dies upon failure.
         my $error = $@ || 'Unknown failure';
         warn('Failed to restart the VM foo... '.$error);
     }
+
+=head2 set
+
+This sets various settings for a VM via the use of...
+
+    cbsd bset jname=$vm ...
+
+One argument is equired and that is the VM name.
+
+This will die upon failure. Please note the CBSD currently does
+not consider non-existent variables such as 'foofoo' to be a failure
+and silently ignores those.
+
+    # set the the VM foo to boot from net with a resolution of 800x600
+    vm 'set' => 'foo',
+        vm_boot => 'net',
+        bhyve_vnc_resolution => '800x600';
 
 =head2 start
 
@@ -424,6 +442,10 @@ L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=Rex-Virtualization-CBSD>
 =item * AnnoCPAN: Annotated CPAN documentation
 
 L<http://annocpan.org/dist/Rex-Virtualization-CBSD>
+
+=item * Repository
+
+L<https://github.com/VVelox/Rex-Virtualization-CBSD>
 
 =item * CPAN Ratings
 
