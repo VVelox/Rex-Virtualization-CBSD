@@ -193,7 +193,7 @@ The keys are as below.
     
     driver - The driver in use. As of currently either vtnet or e1000.
     
-    type - Not currently used.
+    node - The node it is on.
     
     parent - Either the name of the parent NIC, example 'bridge1', or set to 'auto'.
     
