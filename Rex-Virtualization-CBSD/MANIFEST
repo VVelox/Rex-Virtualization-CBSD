@@ -1,6 +1,7 @@
 Changes
 lib/Rex/Virtualization/CBSD.pm
 lib/Rex/Virtualization/CBSD/cbsd_base_dir.pm
+lib/Rex/Virtualization/CBSD/create.pm
 lib/Rex/Virtualization/CBSD/disk_list.pm
 lib/Rex/Virtualization/CBSD/freejname.pm
 lib/Rex/Virtualization/CBSD/info.pm
