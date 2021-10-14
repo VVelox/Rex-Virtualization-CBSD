@@ -57,13 +57,13 @@ sub execute {
 
 		if ( defined( $opts{$key} ) ) {
 
-			# make sure it does not contain any tabs, spaces, =, \. /, ', ", or new lines.
-			if ( $opts{$key} =~ /[\t\ \=\\\/\'\"\n]/ ) {
+			# make sure it does not contain any tabs, single/double quotes, and new lines
+			if ( $opts{$key} =~ /[\t\'\"\n]/ ) {
 				die 'The value "'
 					. $opts{$key}
 					. '" for key "'
 					. $key
-					. '" matched /[\t\ \=\/\\\'\"\n]/, meaning it is not a valid value';
+					. '" matched /[\t\'\"\n]/, meaning it is not a valid value';
 			}
 
 			if ( defined( $opts{$key} ) ) {

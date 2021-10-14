@@ -25,7 +25,13 @@ our $VERSION = '0.0.1';
 
     set virtualization => "CBSD";
     
-    use Data::Dumper;
+
+    print Dumper vm 'create', name=>'foo',
+                              'vm_os_type'=>'freebsd',
+                              'vm_os_profile'=>'FreeBSD-x64-13.0',
+                              'vm_ram'=>'1g',
+                              'vm_cpus'=>'1',
+                              'imgsize'=>'10g';
 
 =cut
 
@@ -207,7 +213,7 @@ The returned array is a hash of hashes. The first level hash is the jname.
 
     nodename - The node name that this is set to run on.
     
-    vm - Name of the VM.
+    name - Name of the VM.
     
     jid - Jail ID/process ID of the VM if running. IF '0' it is not running.
     
