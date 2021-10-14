@@ -9,7 +9,7 @@ use base qw(Rex::Virtualization::Base);
 
 =head1 NAME
 
-Rex::Virtualization::CBSD - CBSD virtualization modulem for bhyve
+Rex::Virtualization::CBSD - CBSD virtualization module for bhyve
 
 =head1 VERSION
 
@@ -25,13 +25,34 @@ our $VERSION = '0.0.1';
 
     set virtualization => "CBSD";
     
+    vm 'create', name=>'foo',
+                 'vm_os_type'=>'freebsd',
+                 'vm_os_profile'=>'FreeBSD-x64-13.0',
+                 'vm_ram'=>'1g',
+                 'vm_cpus'=>'1',
+                 'imgsize'=>'10g';
+    
+    vm 'start' => 'foo';
+    
+    # list the basic settings for the VM foo from the VM list
+    my %vm_list = vm 'list';
+    print Dumper \%{ $vm_list{foo} };
+    
+    # get all the config info for the VM foo and display it
+    %vm_info=vm 'info' => 'foo';
+    foreach my $vm_info_key (@{keys(%vm_info)}){
+        print $vm_info_key.": ".$vm_info{$vm_info_key}."\n";
+    }
 
-    print Dumper vm 'create', name=>'foo',
-                              'vm_os_type'=>'freebsd',
-                              'vm_os_profile'=>'FreeBSD-x64-13.0',
-                              'vm_ram'=>'1g',
-                              'vm_cpus'=>'1',
-                              'imgsize'=>'10g';
+    # stop the VM foo
+    vm 'stop' => 'foo';
+    
+    # remove the VM foo
+    vm 'remove' => 'foo';
+    
+    # show all VM
+    my %vm_list = vm 'list';
+    print Dumper \%vm_list;
 
 =cut
 

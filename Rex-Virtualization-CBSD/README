@@ -1,15 +1,40 @@
 Rex-Virtualization-CBSD
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+This provides interface to CBSD for controlling bhyve via Rex.
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+    use Rex::Commands::Virtualization;
+
+    set virtualization => "CBSD";
+    
+    vm 'create', name=>'foo',
+                 'vm_os_type'=>'freebsd',
+                 'vm_os_profile'=>'FreeBSD-x64-13.0',
+                 'vm_ram'=>'1g',
+                 'vm_cpus'=>'1',
+                 'imgsize'=>'10g';
+    
+    vm 'start' => 'foo';
+    
+    # list the basic settings for the VM foo from the VM list
+    my %vm_list = vm 'list';
+    print Dumper \%{ $vm_list{foo} };
+    
+    # get all the config info for the VM foo and display it
+    %vm_info=vm 'info' => 'foo';
+    foreach my $vm_info_key (@{keys(%vm_info)}){
+        print $vm_info_key.": ".$vm_info{$vm_info_key}."\n";
+    }
+
+    # stop the VM foo
+    vm 'stop' => 'foo';
+    
+    # remove the VM foo
+    vm 'remove' => 'foo';
+    
+    # show all VM
+    my %vm_list = vm 'list';
+    print Dumper \%vm_list;
+
 
 
 INSTALLATION

@@ -18,7 +18,7 @@ my %WriteMakefileArgs = (
 	},
 	PREREQ_PM => {
 		'Term::ANSIColor' => '0',
-		'Rex'             => '1.9.0',
+		'Rex'             => '1.13.4',
 	},
 	dist       => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
 	clean      => { FILES    => 'Rex-Virtualization-CBSD-*' },
