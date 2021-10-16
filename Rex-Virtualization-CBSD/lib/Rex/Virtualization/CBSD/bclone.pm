@@ -26,25 +26,29 @@ sub execute {
 
 		# make sure it does not contain any possible characters we don't want
 		if ( $opts{$key} =~ /[\t\ \=\\\/\'\"\n\;\&]/ ) {
-			die 'The variable "' . $key . '" matched /[\t\ \=\/\\\'\"\n\;\&]/, meaning it is not a valid variable name';
+			die 'The value for "'
+				. $key . '", "'
+				. $opts{$key}
+				. '", matched /[\t\ \=\/\\\'\"\n\;\&]/, meaning it is not a valid value';
 		}
 	}
 
 	# the command to use
-	my $command = 'cbsd bclone old='.$opts{old}.' new='.$opts{new};
+	my $command = 'cbsd bclone old=' . $opts{old} . ' new=' . $opts{new};
 
 	# make sure all the variables are sane
 	# and if set and sane add it
 	my @bool_vars = ( 'checkstate', 'promote', 'mac_reinit' );
 	foreach my $key (@bool_vars) {
+
 		# make sure that the it is either 0 or 1
 		if ( defined( $opts{$key} ) && ( $opts{$key} !~ /^[01]$/ ) ) {
-			die ( 'Key "'.$key.'" defined and is "'.$opts{key}.'", which does not match /^[01]$/' );
+			die( 'Key "' . $key . '" defined and is "' . $opts{key} . '", which does not match /^[01]$/' );
 		}
 
 		# if we get here it is sane and if defined, set it
-		if (defined( $opts{key} )) {
-			$command=$command.' '.$key.'='.$opts{$key};
+		if ( defined( $opts{key} ) ) {
+			$command = $command . ' ' . $key . '=' . $opts{$key};
 		}
 
 	}
