@@ -510,7 +510,7 @@ This dies upon failure.
         warn('Failed to stop the VM foo... '.$error);
     }
 
-=head3 p9shares_list
+=head3 p9shares_add
 
 This adds a p9 share for the specified VM. This is done via
 
@@ -523,6 +523,10 @@ The keys below are required.
     device - p9 device name, one word.
     
     path - The shared path.
+
+This will die upon error.
+
+    vm 'p9shares_add', vm=>'foo', device=>'arc', path='/arc';
 
 =head3 p9shares_list
 
@@ -544,6 +548,22 @@ This will die upon error.
 
     my @shares=vm 'p9shares_list';
     print Dumper \@shares;
+
+=head3 p9shares_rm
+
+This removes a p9 share for the specified VM. This is done via
+
+        cbsd bhyve-p9shares mode=deattach jname=$vm p9device=$device
+
+The keys below are required.
+
+    vm - Name of the VM the share is for.
+    
+    device - p9 device name, one word.
+
+This will die upon error.
+
+    vm 'p9shares_add', vm=>'foo', device=>'arc';
 
 =head3 vm_os_profiles
 
