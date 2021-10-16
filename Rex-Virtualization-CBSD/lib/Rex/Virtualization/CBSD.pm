@@ -489,6 +489,25 @@ This dies upon failure.
         warn('Failed to stop the VM foo... '.$error);
     }
 
+=head3 p9shares_list
+
+This lists the configured p9 shares. This is fetched using the command below.
+
+    cbsd bhyve-p9shares mode=list header=0 display=jname,p9device,p9path
+
+No arguments are taken.
+
+The returned data is a array of hashes. The hash keys are as below.
+
+    vm - Name of the VM the share is for.
+    device - p9 device name, one word.
+    path - The shared path.
+
+This will die upon error.
+
+    my @shares=vm 'p9shares_list';
+    print Dumper \@shares;
+
 =head3 vm_os_profiles
 
 Get the VM OS profiles for a specified OS type.
