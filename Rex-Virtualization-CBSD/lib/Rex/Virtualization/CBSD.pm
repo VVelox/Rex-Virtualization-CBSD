@@ -96,7 +96,39 @@ of seconds a lease for the VM name should last. The default is 30.
 
 =head2 bhyve
 
-=head2 bclone
+=head3 bcheckpoint_create
+
+Creates a checkpoint via the command below.
+
+    cbsd bcheckpoint mode=create jname=$vm suspend=$suspend name=$name
+
+The only required option is the key vm.
+
+    vm - VM to checkpoint
+    
+    name - name of checkpoint. by default: 'checkpoint'.
+    
+    suspend=  - when set to 1 then turn off the domain immediately after checkpoint,
+                for disk consistency. By default - 0, create checkpoint only.
+
+This will die upon error.
+
+    vm 'bcheckpoint_create', vm=>'foo';
+
+=head3 bcheckpoint_destroyall
+
+Removes all checkpoints via the command below.
+
+    cbsd bcheckpoint mode=destroyall jname=$vm
+
+One argument is taken and that is the name of the VM.
+
+This will die upon error.
+
+    # removes all checkpoints for the VM 'foo'
+    vm 'bcheckpoint_destroyall', 'foo';
+
+=head3 bclone
 
 This closnes a VM.
 
@@ -472,17 +504,24 @@ This starts a VM. This is done via the command...
 
     cbsd bstart jname=$vm
 
-One argument is taken and that is the name of the VM. If '*' or 'vm*' then
+One argument is required and that is the name of the VM. If '*' or 'vm*' then
 start all VM whose names begin with 'vm', e.g. 'vm1', 'vm2'...
+
+The following options may be used.
+
+    checkpoint - The name of the checkpoint to start the VM using.
 
 This dies upon failure.
 
     eval{
-        vm 'bstart' => 'foo'
+        vm 'bstart' => 'foo';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to start the VM foo... '.$error);
     }
+
+    # starts foo from the checkpoint named checkpoint
+    vm 'bstart' => 'foo', checkpoint=>'checkpoint';
 
 
 =head3 bstop
