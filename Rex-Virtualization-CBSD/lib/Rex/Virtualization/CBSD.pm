@@ -94,8 +94,29 @@ of seconds a lease for the VM name should last. The default is 30.
     # the same thing, but with a 60 second lease time
     vm 'freejname' => 'foo', lease_time => '60';
 
-
 =head2 bhyve
+
+=head2 bclone
+
+This closnes a VM.
+
+    old - The VM to clone.
+    
+    new - The name of the new VM.
+    
+    checkstate - 0 do not check for VM online. Default is 1 - check
+    
+    promote - Promotes clone to no longer be dependent from origin: 0 or 1.
+              Default is 0 (not promote). This means new new VM operates in
+              copy-on-write mode and will be promoted upon removal of the
+              original.
+    
+    mac_reinit - 0,1 (default 1). 0 - leave old MAC.
+                 1 set mac to re-generate
+
+This will will die upon error.
+
+    vm 'bclone' old => 'foo', 'new' => 'bar';
 
 =head3 bcreate
 
