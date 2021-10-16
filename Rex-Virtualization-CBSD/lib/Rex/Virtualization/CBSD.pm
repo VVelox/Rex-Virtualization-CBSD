@@ -68,7 +68,9 @@ sub new {
 
 =head1 Methods
 
-=head2 cbsd_base_dir
+=head2 General
+
+=head3 cbsd_base_dir
 
 This returns the CBSD base dir that the install is stored in.
 
@@ -78,7 +80,24 @@ This will die upon error.
 
     my $cbsd_base_dir=vm 'cbsd_base_dir'
 
-=head2 create
+=head3 freejname
+
+Gets the next available VM name.
+
+One argument is required and that is the base VM to use.
+
+The optional argument 'lease_time' may be used to specify the number
+of seconds a lease for the VM name should last. The default is 30.
+
+    vm 'freejname' => 'foo';
+    
+    # the same thing, but with a 60 second lease time
+    vm 'freejname' => 'foo', lease_time => '60';
+
+
+=head2 bhyve
+
+=head3 bcreate
 
 Creates a new VM.
 
@@ -154,7 +173,7 @@ This will die upon a error.
                               'vm_cpus'=>'1',
                               'imgsize'=>'10g';
 
-=head2 disk_list
+=head3 bdisk_list
 
 This returns a list of disks setup for use with Bhyve in CBSD via parsing
 the output of the command below.
@@ -183,7 +202,7 @@ This dies upon failure.
 
     my @disks
     eval{
-        @disks=vm 'disk_list';
+        @disks=vm 'bdisk_list';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to the disk list... '.$error);
@@ -191,21 +210,7 @@ This dies upon failure.
     
     print Dumper(\@disks);
 
-=head2 freejname
-
-Gets the next available VM name.
-
-One argument is required and that is the base VM to use.
-
-The optional argument 'lease_time' may be used to specify the number
-of seconds a lease for the VM name should last. The default is 30.
-
-    vm 'freejname' => 'foo';
-    
-    # the same thing, but with a 60 second lease time
-    vm 'freejname' => 'foo', lease_time => '60';
-
-=head2 info
+=head3 binfo
 
 This fetches the available configuration information for a VM via
 the command below.
@@ -216,7 +221,7 @@ The returned value is a flat hash of key value pairs.
 
     my %vm_info
     eval{
-        %vm_info=vm 'info' => 'foo';
+        %vm_info=vm 'binfo' => 'foo';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to get settings for the VM... '.$error);
@@ -226,9 +231,13 @@ The returned value is a flat hash of key value pairs.
         print $vm_info_key.": ".$vm_info{$vm_info_key}."\n";
     }
 
-=head2 list
+=head3 blist
 
 List available VMs.
+
+The command used is...
+
+    cbsd bls display=nodename,jname,jid,vm_ram,vm_curmem,vm_cpus,pcpu,vm_os_type,ip4_addr,status,vnc,path header=0
 
 The returned array is a hash of hashes. The first level hash is the jname.
 
@@ -260,7 +269,7 @@ This dies upon failure.
 
     my %vm_list;
     eval{
-        %vm_list=vm 'list';
+        %vm_list=vm 'blist';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to list the VM... '.$error);
@@ -284,9 +293,13 @@ This dies upon failure.
             "\n"
     }
 
-=head2 nic_list
+=head3 bnic_list
 
 List configured NICs.
+
+The command used is as below...
+
+    cbsd bhyve-nic-list display=nodename,jname,nic_driver,nic_parent,nic_hwaddr,nic_address,nic_mtu,nic_persistent,nic_ratelimit header=0
 
 This returned data is a array of hashes.
 
@@ -315,7 +328,7 @@ This dies upon failure.
 
     my @nics
     eval{
-        @nics=vm nic_list;
+        @nics=vm 'bnic_list';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to the NIC list... '.$error);
@@ -323,7 +336,7 @@ This dies upon failure.
     
     print Dumper(\@nics);
 
-=head2 pause
+=head3 bpause
 
 This pauses a VM in question. The following modes are available. If no
 more is specified, audo is used.
@@ -334,20 +347,24 @@ more is specified, audo is used.
 
 The command called is as below.
 
-    cbsd bpause $vm mode=$mode
+    cbsd 'bpause' => $vm mode=>$mode
 
 This dies upon failure.
 
     eval{
-        vm 'pause' => 'foo';
+        vm 'bpause' => 'foo';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to pause the VM foo... '.$error);
     }
 
-=head2 pci_list
+=head3 bpci_list
 
 List configured PCI devices for a VM.
+
+The command used is as below.
+
+    cbsd bpcibus mode=list jname=$vm
 
 This returned data is a array of hashes.
 
@@ -369,7 +386,7 @@ This dies upon failure.
 
     my @devices
     eval{
-        @devices=vm 'nic_list' => 'foo';
+        @devices=vm 'bnic_list' => 'foo';
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to the PCI device list... '.$error);
@@ -377,24 +394,24 @@ This dies upon failure.
     
     print Dumper(\@devices);
 
-=head2 remove
+=head3 bremove
 
 This removes the selected VM and remove the data. This is done via the command...
 
-    cbsd bdestroy $vm
+    cbsd bremove $vm
 
 One argument is taken and that is the name of the VM.
 
 This dies upon failure.
 
     eval{
-        vm 'remove' => 'foo'
+        vm 'bremove' => 'foo'
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to remove the VM foo... '.$error);
     }
 
-=head2 restart
+=head3 brestart
 
 This restarts the selected VM. This is done via the command...
 
@@ -405,13 +422,13 @@ One argument is taken and that is the name of the VM.
 This dies upon failure.
 
     eval{
-        vm 'restart' => 'foo'
+        vm 'brestart' => 'foo'
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to restart the VM foo... '.$error);
     }
 
-=head2 set
+=head3 bset
 
 This sets various settings for a VM via the use of...
 
@@ -424,11 +441,11 @@ not consider non-existent variables such as 'foofoo' to be a failure
 and silently ignores those.
 
     # set the the VM foo to boot from net with a resolution of 800x600
-    vm 'set' => 'foo',
+    vm 'bset' => 'foo',
         vm_boot => 'net',
         bhyve_vnc_resolution => '800x600';
 
-=head2 start
+=head3 bstart
 
 This starts a VM. This is done via the command...
 
@@ -440,14 +457,14 @@ start all VM whose names begin with 'vm', e.g. 'vm1', 'vm2'...
 This dies upon failure.
 
     eval{
-        vm 'start' => 'foo'
+        vm 'bstart' => 'foo'
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to start the VM foo... '.$error);
     }
 
 
-=head2 stop
+=head3 bstop
 
 This stops a VM. This is done via the command below...
 
@@ -465,14 +482,14 @@ The following options are optional.
 This dies upon failure.
 
     eval{
-        vm 'stop' => 'foo',
+        vm 'bstop' => 'foo',
             hard_timeout => 60;
     } or do {
         my $error = $@ || 'Unknown failure';
         warn('Failed to stop the VM foo... '.$error);
     }
 
-=head2 vm_os_profiles
+=head3 vm_os_profiles
 
 Get the VM OS profiles for a specified OS type.
 
@@ -494,7 +511,7 @@ This will die upon failure.
     @profiles=vm 'vm_os_profiles' => 'freebsd', cloudinit=>1;
     print Dumper @profiles;
 
-=head2 vm_os_profiles_hash
+=head3 vm_os_profiles_hash
 
 Get the VM OS profiles for a specified OS type.
 
@@ -517,7 +534,7 @@ This will die upon failure.
     my %os_profiles=vm 'vm_os_profiles_hash', cloudinit=>1;
     print Dumper %os_profiles;
 
-=head2 vm_os_types
+=head3 vm_os_types
 
 Get the VM OS types there are profiles for.
 
