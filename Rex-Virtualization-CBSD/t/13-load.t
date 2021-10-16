@@ -7,7 +7,7 @@ use Test::More;
 plan tests => 1;
 
 BEGIN {
-    use_ok( 'Rex::Virtualization::CBSD::stop' ) || print "Bail out!\n";
+    use_ok( 'Rex::Virtualization::CBSD::bstop' ) || print "Bail out!\n";
 }
 
-diag( "Testing Rex::Virtualization::CBSD::stop $Rex::Virtualization::CBSD::stop::VERSION, Perl $], $^X" );
+diag( "Testing Rex::Virtualization::CBSD::bstop $Rex::Virtualization::CBSD::bstop::VERSION, Perl $], $^X" );

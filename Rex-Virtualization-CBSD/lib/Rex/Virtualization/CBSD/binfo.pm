@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::info;
+package Rex::Virtualization::CBSD::binfo;
 
 use strict;
 use warnings;

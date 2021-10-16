@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::pci_list;
+package Rex::Virtualization::CBSD::bpci_list;
 
 use strict;
 use warnings;

@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::pause;
+package Rex::Virtualization::CBSD::bpause;
 
 use strict;
 use warnings;

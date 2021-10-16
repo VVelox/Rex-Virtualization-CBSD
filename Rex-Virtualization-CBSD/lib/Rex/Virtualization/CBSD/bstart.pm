@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::start;
+package Rex::Virtualization::CBSD::bstart;
 
 use strict;
 use warnings;

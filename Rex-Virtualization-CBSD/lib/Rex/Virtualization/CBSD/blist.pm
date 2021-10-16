@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::list;
+package Rex::Virtualization::CBSD::blist;
 
 use strict;
 use warnings;

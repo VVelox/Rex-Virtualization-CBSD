@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::nic_list;
+package Rex::Virtualization::CBSD::bnic_list;
 
 use strict;
 use warnings;

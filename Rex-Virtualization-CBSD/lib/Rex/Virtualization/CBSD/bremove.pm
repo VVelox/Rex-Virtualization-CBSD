@@ -2,7 +2,7 @@
 # (c) Zane C. Bowers-Hadley <vvelox@vvelox.net>
 #
 
-package Rex::Virtualization::CBSD::remove;
+package Rex::Virtualization::CBSD::bremove;
 
 use strict;
 use warnings;
