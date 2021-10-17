@@ -13,11 +13,11 @@ Rex::Virtualization::CBSD - CBSD virtualization module for bhyve
 
 =head1 VERSION
 
-Version 0.0.1
+Version 1.0.0
 
 =cut
 
-our $VERSION = '0.0.1';
+our $VERSION = '1.0.0';
 
 =head1 SYNOPSIS
 
@@ -43,7 +43,7 @@ our $VERSION = '0.0.1';
     foreach my $vm_info_key (@{keys(%vm_info)}){
         print $vm_info_key.": ".$vm_info{$vm_info_key}."\n";
     }
-
+    
     # stop the VM foo
     vm 'stop' => 'foo';
     
@@ -497,6 +497,68 @@ and silently ignores those.
     vm 'bset' => 'foo',
         vm_boot => 'net',
         bhyve_vnc_resolution => '800x600';
+
+=head3 bsnapshot_create
+
+This creates a disk snapshot of the specified VM via the command below.
+
+    cbsd bsnapshot mode=create jname=$vm  snapname=$name
+
+The following argument taken.
+
+    vm - The VM to snapshot. This is required.
+
+    name - The snapshot name. If not specified it defaults to snapshot.
+
+This will die upon error.
+
+    vm 'bsnapshot_create', vm=>'foo', name=>'aSnapshot';
+
+=head3 bsnapshot_remove
+
+This removes the specified snapshot for the specified VM.
+
+    cbsd bsnapshot mode=destroy jname=$vm  snapname=$name
+
+The following argument required.
+
+    vm - The VM to snapshot. This is required.
+
+    name - The snapshot name.
+
+This will die upon error.
+
+    vm 'bsnapshot_remove', vm=>'foo', name=>'aSnapshot';
+
+=head3 bsnapshot_removeall
+
+This removes specified snapshot for the specified VM.
+
+    cbsd bsnapshot mode=destroyall jname=$vm
+
+The following argument required.
+
+    vm - The VM to remove all snapshots for.
+
+This will die upon error.
+
+    vm 'bsnapshot_removeall', vm=>'foo';
+
+=head3 bsnapshot_rollback
+
+This rolls the disks for a VM back to a specified snapshot.
+
+    cbsd bsnapshot mode=rollback jname=$vm  snapname=$name
+
+The following argument required.
+
+    vm - The VM to rollback.
+
+    name - The snapshot name.
+
+This will die upon error.
+
+    vm 'bsnapshot_rollback', vm=>'foo', name=>'aSnapshot';
 
 =head3 bstart
 
