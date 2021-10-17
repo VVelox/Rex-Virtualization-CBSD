@@ -514,6 +514,29 @@ This will die upon error.
 
     vm 'bsnapshot_create', vm=>'foo', name=>'aSnapshot';
 
+=head3 bsnapshot_list
+
+This lists all the snapshots via the command below.
+
+    cbsd bsnapshot mode=list display=jname,snapname,creation,refer header=0
+
+No arguments are taken.
+
+The return is a array of hashes. The hash keys are as below.
+
+    vm - Name of the VM the snapshot is for.
+    
+    name - Name of the snapshot.
+    
+    creation - The creation date. The format is YYYY-MM-DD__hh:mm.
+    
+    refer - ?
+
+This will die upon error.
+
+    my @snaps=vm 'bsnapshot_list';
+    print Dumper \@snaps;
+
 =head3 bsnapshot_remove
 
 This removes the specified snapshot for the specified VM.
